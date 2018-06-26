@@ -14,13 +14,19 @@ A P-controller is used here for the body-rate-control.
 
 ## Roll pitch control
 
-A P-controller is used 
+A P-controller is used for the control of moments around each body-axis.
 
 ## Altitude control
 
+A PID-controller is used.
+
 ## lateral position control
 
+A PD-controller is used.
+
 ## yaw control
+
+A P-controller is used.
 
 ## References
 * [Udacity Flying Car Nanodegree](https://www.udacity.com)

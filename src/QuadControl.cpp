@@ -72,7 +72,7 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
 
     const float l = L / sqrt(2.0F);
 
-    float Ft = collThrustCmd;
+    float Fc = collThrustCmd;
 
     // force * radius = moment
     float Fp = momentCmd.x / l;
@@ -81,15 +81,15 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
     float Fr = momentCmd.z / kappa;
 
     // 4 equations -> solved for four variables
-    float F1 = (Ft + Fp + Fq - Fr)/4;
-    float F2 = F1 - (Fp - Fr)/2;
-    float F4 = (Ft - Fp)/2 - F2;
-    float F3 = Ft - F1 - F2 - F4;
+    float F0 = (Fc + Fp + Fq - Fr)/4;
+    float F1 = F0 - (Fp - Fr)/2;
+    float F3 = (Fc - Fp)/2 - F1;
+    float F2 = Fc - F0 - F1 - F3;
 
-    cmd.desiredThrustsN[0] = CONSTRAIN(F1, minMotorThrust, maxMotorThrust); // front left
-    cmd.desiredThrustsN[1] = CONSTRAIN(F2, minMotorThrust, maxMotorThrust); // front right
-    cmd.desiredThrustsN[2] = CONSTRAIN(F3, minMotorThrust, maxMotorThrust); // rear left
-    cmd.desiredThrustsN[3] = CONSTRAIN(F4, minMotorThrust, maxMotorThrust); // rear right
+    cmd.desiredThrustsN[0] = CONSTRAIN(F0, minMotorThrust, maxMotorThrust); // front left
+    cmd.desiredThrustsN[1] = CONSTRAIN(F1, minMotorThrust, maxMotorThrust); // front right
+    cmd.desiredThrustsN[2] = CONSTRAIN(F2, minMotorThrust, maxMotorThrust); // rear left
+    cmd.desiredThrustsN[3] = CONSTRAIN(F3, minMotorThrust, maxMotorThrust); // rear right
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -115,8 +115,6 @@ V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
     V3F I = V3F(Ixx, Iyy, Izz);
     momentCmd = I * kpPQR * (pqrCmd - pqr);
-  
-
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
   return momentCmd;
